@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from features.views import index
-from order.views import create_order
+from order.views import create_order, create_model_order
 import debug_toolbar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
     path('create_order/', create_order, name="createorder"),
+    path('createmodelorder/', create_model_order, name="createmodelorder"),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
