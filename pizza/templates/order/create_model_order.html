@@ -12,9 +12,31 @@
             {% endfor %}
         </ul>
     {% endfor %}
-    <form action="" method="post">
+    <form class="form" action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="place order">
     </form>
+    <button class="more">add more pizza</button>
 </ul>
+<script>
+    let pizza = document.querySelector('#id_pizza_order');
+    let order = document.querySelector('.order');
+    let more = document.querySelector('.more');
+    let form = document.querySelector('.form');
+    let body = document.querySelector('body')
+
+    more.addEventListener('click', (e) => {
+        e.preventDefault();
+        p = document.createElement('p')
+        l = document.createElement('label')
+        l.setAttribute('for', 'id_choice')
+        l.textContent = 'Choice: '
+        cloned = pizza.cloneNode(true)
+        p.append(l)
+        p.append(cloned)
+        form.insertBefore(p, order)
+
+    });
+
+</script>

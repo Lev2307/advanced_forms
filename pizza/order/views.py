@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from pizzas.models import PizzaModel
 from .models import OrderModel
 from .forms import CreateForm, CreateOrderModelForm
-
+from django.forms import modelformset_factory
 # Create your views here.
 def create_order(request):
     order_form = CreateForm(request.POST or None)
@@ -22,11 +22,18 @@ def create_order(request):
 
 def create_model_order(request, *args, **kwargs):
     model_form = CreateOrderModelForm(request.POST or None)
+    OrderFormSet = modelformset_factory(OrderModel, form=CreateOrderModelForm, extra=2)
+    model_form = OrderFormSet(
+        request.POST or None,
+        queryset=OrderModel.objects.none(),
+        initial=[{'address': 'modelformset street'}]
+        )
+    # print(model_form.data)
+    # if model_form.is_valid():
+    #     model_form.save()
+    #     return redirect('createmodelorder')
     context = {
         'pizzas': PizzaModel.objects.all(),
         'form': model_form
     }
-    if model_form.is_valid():
-        model_form.save()
-        return redirect('createmodelorder')
     return render(request, 'order/create_model_order.html', context=context)
