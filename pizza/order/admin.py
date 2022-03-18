@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import OrderModel, OrderProxy
+from .models import OrderModel
 from django.utils.translation import ngettext
 from django.contrib import messages
 
@@ -8,7 +8,7 @@ from django.contrib import messages
 def set_delivered(modeladmin, request, queryset):
     queryset.update(delivery_status='DEL')
 class OrderInline(admin.TabularInline):
-    model = OrderProxy
+    model = OrderModel.pizza_order.through
     verbose_name = 'order'
     verbose_name_plural = 'Create order'
     extra = 0

@@ -22,9 +22,9 @@ class OrderModel(models.Model):
     def all_orders(self):
         return "\n".join([o.name for o in self.pizza_order.all()])
 
-class OrderProxy(OrderModel.pizza_order.through):
-    class Meta:
-        proxy = True
+# class OrderProxy(OrderModel.pizza_order.through):
+#     class Meta:
+#         proxy = True
 
-    def __str__(self):
-        return str(self.ordermodel)
+#     def __str__(self):
+#         return str(self.ordermodel)

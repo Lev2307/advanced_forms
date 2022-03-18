@@ -4,6 +4,9 @@ from .models import OrderModel
 from .forms import CreateForm, CreateOrderModelForm
 from django.forms import modelformset_factory
 # Create your views here.
+
+def index(request):
+    return render(request, 'index.html')
 def create_order(request):
     order_form = CreateForm(request.POST or None)
     context = {

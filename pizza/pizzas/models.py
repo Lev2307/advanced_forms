@@ -1,5 +1,6 @@
 from django.db import models
-
+from django.urls import reverse
+from django.template.defaultfilters import slugify
 # Create your models here.
 
 
@@ -15,11 +16,20 @@ class ToppingsModel(models.Model):
 
 class PizzaModel(models.Model):
     name = models.CharField(max_length=55)
+    name_slug = models.SlugField(blank=True, null=True)
     toppings = models.ManyToManyField(ToppingsModel, verbose_name='toppings')
 
     class Meta:
         verbose_name = 'My pizza recipes'
         verbose_name_plural = 'Pizza recipes'
+
+    def save(self, *args, **kwargs):
+        if not self.name_slug:
+            self.name_slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse('pizza_detail', kwargs={'slug': self.name_slug})
 
     def all_toppings(self):
         return "\n".join([t.name for t in self.toppings.all()])
@@ -27,9 +37,9 @@ class PizzaModel(models.Model):
     def __str__(self):
         return  f'{self.name}: {", ".join([topping.name for topping in self.toppings.all()])}'
 
-class ProxyPizza(PizzaModel.toppings.through):
-    class Meta:
-        proxy = True
+# class ProxyPizza(PizzaModel.toppings.through):
+#     class Meta:
+#         proxy = True
 
-    def __str__(self):
-        return str(self.toppingsmodel)
+#     def __str__(self):
+#         return str(self.toppingsmodel)
