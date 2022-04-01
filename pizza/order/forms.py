@@ -8,9 +8,12 @@ PIZZAS = [(f'{p.id}', f'{p.name}') for p in PizzaModel.objects.all()]
 DEL_STATUS = [('Pen', 'Pending'), ('DEL', 'Delivered')]
 
 class CreateForm(forms.Form):
-
     def __init__(self, *args, **kwargs):
-        pass
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class = 'form-inline'
+        self.helper.form_method = 'post'
+
     address = forms.CharField(required=True)
     choice = forms.ChoiceField(
         choices=PIZZAS,
