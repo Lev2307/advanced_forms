@@ -13,6 +13,15 @@ class CreateForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_class = 'form-inline'
         self.helper.form_method = 'post'
+        self.helper.layout = Layout(
+            Field('address'),
+            Field('choice'),
+            Field('delivery_status'),
+            ButtonHolder (
+                Submit('order', 'Order', css_class='btn btn-danger')
+            )
+
+        )
 
     address = forms.CharField(required=True)
     choice = forms.ChoiceField(
